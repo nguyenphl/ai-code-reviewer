@@ -5,11 +5,11 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import fnmatch
-from .pr_details import get_pr_details, PRDetails
-from .github_client import get_diff
-from .diff_parser import parse_diff
-from .ai_analyzer import analyze_code
-from .review_commenter import create_review_comment
+from pr_details import get_pr_details, PRDetails
+from github_client import get_diff
+from diff_parser import parse_diff
+from ai_analyzer import analyze_code
+from review_commenter import create_review_comment
 
 def main():
     """Main function to execute the code review process."""
