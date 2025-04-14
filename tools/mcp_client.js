@@ -2,10 +2,12 @@ const { spawn } = require('child_process');
 const parseDiff = require('parse-diff');
 const fs = require('fs');
 const { GoogleGenAI } = require('@google/genai');
-const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY});
+
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash-001';
+
+const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY});
 
 // Start the MCP server in stdio mode
 const mcpServer = spawn('./github-mcp-server/cmd/github-mcp-server/github-mcp-server', ['stdio'], {
