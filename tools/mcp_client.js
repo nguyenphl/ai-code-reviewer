@@ -60,6 +60,16 @@ Return your response in markdown format, suitable for posting as a GitHub commen
 async function main() {
   try {
 
+    const listToolsRequest = {
+        jsonrpc: '2.0',
+        method: 'listTools',
+        params: {},
+        id: 1
+      };
+
+    const tools = await sendRequest(listToolsRequest);
+    console.log('Available tools:', tools);
+
     var { repoOwner, repoName, prNumber, prBody } = readPullRequestDetail();
     // Fetch the pull request diff
     const diffRequest = {
