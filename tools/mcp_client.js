@@ -64,7 +64,7 @@ async function main() {
     // Fetch the pull request diff
     const diffRequest = {
       jsonrpc: '2.0',
-      method: 'get_pull_request_diff',  // Assumed tool name
+      method: 'get_pull_request_files',  // Assumed tool name
       params: {
         owner: repoOwner,
         repo: repoName,
