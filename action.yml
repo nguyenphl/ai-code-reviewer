@@ -47,7 +47,7 @@ runs:
   - name: Install dependencies for MCP client
     shell: bash
     run: |
-      cd tools
+      cd ${{ github.action_path }}/tools
       npm install
 
   - name: Run code review
