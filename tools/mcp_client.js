@@ -68,7 +68,7 @@ async function main() {
       params: {
         owner: repoOwner,
         repo: repoName,
-        prNumber: prNumber
+        pullNumber: prNumber
       },
       id: 1
     };
@@ -96,34 +96,32 @@ async function main() {
 
       // Build prompt for this file
       const filePrompt = `File: ${file.to}\n\nDiff:\n${fileDiff}\n\nFull Content:\n${fileContent}`;
-      reviewPrompts.push(filePrompt);
+
+      const fullPrompt = `${systemPrompt}\n\n${filePrompt}`;
+
+      // Send to Gemini for review (replace with actual Gemini API endpoint)
+        const response = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            contents: fullPrompt,
+        });
+
+        const review = response.data.text;
+
+        // Post the review as a comment on the pull request
+        const commentRequest = {
+        jsonrpc: '2.0',
+        method: 'add_pull_request_review_comment',
+        params: {
+            owner: repoOwner,
+            repo: repoName,
+            pull_number: prNumber,
+            body: review,
+            path: file.filename
+        },
+        id: 3
+        };
+        await sendRequest(commentRequest);
     }
-
-    // Combine all prompts with the system prompt
-    const fullPrompt = `${systemPrompt}\n\n${reviewPrompts.join('\n\n')}`;
-
-    // Send to Gemini for review (replace with actual Gemini API endpoint)
-    const response = await ai.models.generateContent({
-        model: GEMINI_MODEL,
-        contents: fullPrompt,
-      });
-
-    const review = response.data.text;
-
-    // Post the review as a comment on the pull request
-    const commentRequest = {
-      jsonrpc: '2.0',
-      method: 'add_issue_comment',
-      params: {
-        owner: repoOwner,
-        repo: repoName,
-        issue_number: prNumber,
-        body: review
-      },
-      id: 3
-    };
-    await sendRequest(commentRequest);
-
     console.log('Review comment posted successfully.');
   } catch (error) {
     console.error('Error:', error);
