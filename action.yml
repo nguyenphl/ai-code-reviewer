@@ -47,8 +47,6 @@ runs:
   - name: Install dependencies for MCP client
     shell: bash
     run: |
-      mkdir -p tools
-      echo '{"name": "mcp-client", "version": "1.0.0", "dependencies": {"axios": "^0.21.1", "parse-diff": "^0.9.0", "@google/genai": "^0.8.0"}}' > tools/package.json
       cd tools
       npm install
 
